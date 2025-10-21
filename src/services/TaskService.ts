@@ -31,4 +31,33 @@ export class TaskService {
 
     return task as Task;
   }
+
+  async updateTaskStatus(taskId: string, newStatus: TaskStatus): Promise<Task> {
+    // Validate status
+    if (!Object.values(TaskStatus).includes(newStatus)) {
+      throw new Error('Invalid task status');
+    }
+
+    // Check if task exists
+    const existingTask = await prisma.task.findUnique({
+      where: { id: taskId },
+    });
+
+    if (!existingTask) {
+      throw new Error('Task not found');
+    }
+
+    // Business rule: Cannot change completed task back to pending
+    if (existingTask.status === TaskStatus.COMPLETED && newStatus === TaskStatus.PENDING) {
+      throw new Error('Cannot change completed task back to pending');
+    }
+
+    // Update task status
+    const updatedTask = await prisma.task.update({
+      where: { id: taskId },
+      data: { status: newStatus },
+    });
+
+    return updatedTask as Task;
+  }
 }
