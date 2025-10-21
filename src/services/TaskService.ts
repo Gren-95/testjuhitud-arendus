@@ -60,4 +60,24 @@ export class TaskService {
 
     return updatedTask as Task;
   }
+
+  async getOverdueTasks(): Promise<Task[]> {
+    const currentDate = new Date();
+    
+    const overdueTasks = await prisma.task.findMany({
+      where: {
+        dueDate: {
+          lt: currentDate, // Less than current date
+        },
+        status: {
+          notIn: [TaskStatus.COMPLETED, TaskStatus.CANCELLED],
+        },
+      },
+      orderBy: {
+        dueDate: 'asc',
+      },
+    });
+
+    return overdueTasks as Task[];
+  }
 }
