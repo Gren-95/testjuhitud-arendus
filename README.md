@@ -34,28 +34,22 @@ See projekt on Task Management System (Ülesannete Haldussüsteem), mis võimald
 
 ### Installimine
 
-1. Klooni repositoorium:
-```bash
-git clone <repository-url>
-cd testjuhitud-arendus
-```
-
-2. Installi sõltuvused:
+1. Installi sõltuvused:
 ```bash
 npm install
 ```
 
-3. Kopeeri keskkonna fail:
+1. Kopeeri keskkonna fail:
 ```bash
 cp env.example .env
 ```
 
-4. Genereeri Prisma klient:
+1. Genereeri Prisma klient:
 ```bash
 npm run db:generate
 ```
 
-5. Käivita migratsioonid:
+1. Käivita migratsioonid:
 ```bash
 npm run db:migrate
 ```
